@@ -7,7 +7,7 @@ const HomePage = lazy(() => import('pages/HomeView'));
 
 // const PageNotFound = lazy(() => import('pages/NotFound'));
 
-const App: FC = () => {
+const App: FC = () : JSX.Element => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
