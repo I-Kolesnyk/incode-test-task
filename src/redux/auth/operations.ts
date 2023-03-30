@@ -4,7 +4,8 @@ import { RootState } from 'redux/store';
 import { axiosPublic } from 'utils';
 
 interface MyKnownError {
- message: string;
+ message?: string;
+ code? :number;
 }
 
 axios.defaults.baseURL = 'https://expa.fly.dev';
@@ -31,8 +32,7 @@ export const userSignUp = createAsyncThunk(
     } catch (error) {
       if (error instanceof Error) {
         return thunkAPI.rejectWithValue(error.message as MyKnownError['message']);
-      }
-      
+      }      
     }
   }
 );
