@@ -1,43 +1,14 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
 import { authReducer } from './auth/slice';
 
-export type AppDispatch = typeof store.dispatch;
-export type IRootState = ReturnType<typeof store.getState>;
-
-const rootReducer = combineReducers({
- auth: authReducer
+export const store = configureStore({
+  reducer:  authReducer,  
 });
 
-const authPersistConfig = {
-    key: 'auth',
-    storage,
-    whitelist: ['accessToken'],
-  };
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 
-  export const store = configureStore ({
-    reducer: {
-        auth: persistReducer (authPersistConfig, rootReducer),
-    },
-    middleware: getDefaultMiddleware => 
-    getDefaultMiddleware ({
-        serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        }
-    })
-  });
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-  setupListeners(store.dispatch);
-
-  export const persistor = persistStore(store);

@@ -1,57 +1,39 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userSignUp, userSignIn } from './operations';
-
-interface IAuthState {
-  // user: { username: string; password: string; displayName?: string };
-  accessToken: string | null;
-  refreshToken: string | null;
-  isLoggedIn: boolean;
-  error: string | null;
-  isLoading: boolean;
-  isFetchingCurrentUser: boolean;
-}
-
-// interface IUserRegister {
-
-//   accessToken: string | null;
-// }
-interface IUserLogin {
-  accessToken: string | null;
-  refreshToken: string | null;
-}
+import { userSignUp, userSignIn, refreshToken } from './operations';
+import { IAuthState } from 'types/types';
 
 const initialState: IAuthState = {
-  accessToken: null,
-  refreshToken: null,
+  userData: {       
+    accessToken:  null,
+    refreshToken:  null,
+  },
   isLoggedIn: false,
-  error: null,
-  isLoading: false,
-  isFetchingCurrentUser: false,
+  error:  null,  
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {},
-  extraReducers: builder =>
+  extraReducers: builder => {
     builder
-      .addCase(userSignUp.fulfilled, state => {
-        state.isLoggedIn = true;
-      })
+      .addCase(
+        userSignUp.fulfilled,
+        (state, action: PayloadAction<IAuthState['userData']>) => {
+          state.userData = action.payload;
+        }
+      )
       .addCase(
         userSignIn.fulfilled,
-        (state, action: PayloadAction<IUserLogin>) => {
-          state.accessToken = action.payload.accessToken;
-          state.refreshToken = action.payload.refreshToken;
+        (state, action: PayloadAction<IAuthState['userData']>) => {
+          state.userData = action.payload;
           state.isLoggedIn = true;
         }
       )
-      // .addCase(
-      //   userSignIn.rejected,
-      //   (state, action: PayloadAction<IAuthState>) => {
-      //     state.error = action.payload.error;
-      //   }
-      // ),
+      .addCase(refreshToken.fulfilled, (state, action) => {
+        state.userData = action.payload as IAuthState['userData'];
+      });
+  },
 });
 
 export const authReducer = authSlice.reducer;
