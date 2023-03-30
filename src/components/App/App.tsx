@@ -2,8 +2,8 @@ import React, { FC, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from 'components/Layout';
 
-const AuthPage = lazy(() => import('pages/AuthView'));
-const HomePage = lazy(() => import('pages/HomeView'));
+const AuthPage = lazy(() => import('pages/AuthPage'));
+const HomePage = lazy(() => import('pages/HomePage'));
 
 // const PageNotFound = lazy(() => import('pages/NotFound'));
 

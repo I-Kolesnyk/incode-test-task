@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
+import React, {FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { userSignIn } from 'redux/auth/operations';
+import { AppDispatch } from 'redux/store';
 
 type FormData = {
-  name: string;
+  username: string;
   password: string;
 };
 
-const LoginForm = () => {
+const LoginForm : FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const {
     register,
     handleSubmit,
@@ -15,13 +20,14 @@ const LoginForm = () => {
     formState,
   } = useForm<FormData>({
     defaultValues: {
-      name: '',
+      username: '',
       password: '',
     },
   });
 
-  const loginUser = (user: { name: string; password: string }) => {
+  const loginUser = (user: FormData) => {
     console.log(user);
+    dispatch(userSignIn(user));
   };
 
   useEffect(() => {
@@ -37,9 +43,9 @@ const LoginForm = () => {
           type="text"
           placeholder="Example123"
           autoComplete="off"
-          {...register('name')}
+          {...register('username')}
         />
-        {errors.name && <div>{errors.name?.message}</div>}
+        {errors.username && <div>{errors.username?.message}</div>}
       </label>
       <label>
         <input

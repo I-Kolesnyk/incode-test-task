@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-const Layout: FC = (): JSX.Element => {
+const Layout: FC = () => {
   return (
     <>
       <header>
@@ -12,7 +12,9 @@ const Layout: FC = (): JSX.Element => {
       </header>
       <main>
         <div>
+        <Suspense fallback={<div>Loading</div>}>
           <Outlet />
+          </Suspense>
         </div>
       </main>
       ;
