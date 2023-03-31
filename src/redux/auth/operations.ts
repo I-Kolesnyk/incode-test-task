@@ -57,7 +57,7 @@ export const userSignOut = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
     try {
-      await axios.post('/auth/logout');
+      await axios.get('/auth/logout');
       accessToken.unset();
       return;
     } catch (error) {
@@ -75,7 +75,7 @@ export const refreshToken = createAsyncThunk(
     const state = thunkAPI.getState() as RootState;
 try {
   const response = await axiosPublic.post(`/auth/refresh`, {
-    token: state.userData?.refreshToken,
+    refreshToken: state.userData?.refreshToken,
   });
 
   const newUserData = {

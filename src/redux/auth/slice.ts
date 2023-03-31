@@ -56,6 +56,7 @@ const authSlice = createSlice({
       })
       .addCase(refreshToken.rejected, (state, action) => {        
         state.error = action.payload as IAuthState['error'];
+        state.isLoggedIn = false;
       })
       .addMatcher(
         isAnyOf(userSignUp.pending, userSignIn.pending, userSignOut.pending),
