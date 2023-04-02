@@ -29,6 +29,7 @@ const RegisterForm: FC = () => {
 
   const registerUser = (user: FormData) => {
     dispatch(userSignUp(user));
+    
   };
 
   useEffect(() => {

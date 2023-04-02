@@ -2,7 +2,8 @@ import React, {FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { userSignIn } from 'redux/auth/operations';
-import { AppDispatch } from 'redux/store';
+import { AppDispatch, useAppSelector } from 'redux/store';
+import { selectError } from 'redux/auth/selectors';
 
 type FormData = {
   username: string;
@@ -11,6 +12,17 @@ type FormData = {
 
 const LoginForm : FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const error = useAppSelector(selectError);
+
+  useEffect(() => {
+    if (error === 'Request failed with status code 404') {
+      
+        alert(
+          'User is not found. Please sign up!'
+       
+      );
+    }
+  })
 
   const {
     register,

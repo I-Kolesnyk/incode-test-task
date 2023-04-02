@@ -1,23 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from 'redux/store';
-import { axiosPublic } from 'utils';
+import { axiosPublic, axiosPrivate } from 'utils';
 
 interface MyKnownError {
- message?: string;
- code? :number;
+  message?: string;
+  code?: number;
 }
 
 axios.defaults.baseURL = 'https://expa.fly.dev';
-
-const accessToken = {
-  set(accessToken : string) {
-    axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
-  },
-  unset() {
-    axios.defaults.headers.Authorization = '';
-  },
-};
 
 export const userSignUp = createAsyncThunk(
   'auth/register',
@@ -26,13 +17,18 @@ export const userSignUp = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const { data } = await axios.post(`/auth/register`, user);
-      console.log(data);
+      const { data } = await axiosPublic.post(`/auth/register`, user);
       return data;
     } catch (error) {
       if (error instanceof Error) {
-        return thunkAPI.rejectWithValue(error.message as MyKnownError['message']);
-      }      
+        if (error.message === 'Request failed with status code 409') {
+          return thunkAPI.rejectWithValue(
+            alert(
+              'Username is already used by another user'
+            ) as MyKnownError['message']
+          );
+        }
+      }
     }
   }
 );
@@ -41,14 +37,15 @@ export const userSignIn = createAsyncThunk(
   'auth/login',
   async (user: { username: string; password: string }, thunkAPI) => {
     try {
-      const { data } = await axios.post(`/auth/login`, user);
-      accessToken.set(data.accessToken); 
+      const { data } = await axiosPublic.post(`/auth/login`, user);
       return data;
     } catch (error) {
       if (error instanceof Error) {
-        return thunkAPI.rejectWithValue(error.message as MyKnownError['message']);
+        console.log(error);
+        return thunkAPI.rejectWithValue(
+          error.message as MyKnownError['message']
+        );
       }
-      
     }
   }
 );
@@ -56,40 +53,41 @@ export const userSignIn = createAsyncThunk(
 export const userSignOut = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
+    
     try {
-      await axios.get('/auth/logout');
-      accessToken.unset();
-      return;
+      const response = await axiosPrivate.get('/auth/logout');
+      return response.data;
     } catch (error) {
       if (error instanceof Error) {
-        return thunkAPI.rejectWithValue(error.message as MyKnownError['message']);
+        return thunkAPI.rejectWithValue(
+          error.message as MyKnownError['message']
+        );
       }
     }
   }
 );
 
-
 export const refreshToken = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
-try {
-  const response = await axiosPublic.post(`/auth/refresh`, {
-    refreshToken: state.userData?.refreshToken,
-  });
+    try {
+      const response = await axiosPublic.post('/auth/refresh', {
+        refreshToken: state.userData?.refreshToken,
+      });
 
-  const newUserData = {
-    ...state.userData,
-    accessToken: response.data.accessToken,
-    refreshToken: response.data.refreshToken,
-  };
-
-  return newUserData;
-} catch (error) {
-  if (error instanceof Error) {    
-    return thunkAPI.rejectWithValue(error.message as MyKnownError['message']);
-}
-    
-  }}
+      const newUserData = {
+        ...state.userData,
+        accessToken: response.data.accessToken,
+      };
+      console.log(newUserData);
+      return newUserData;
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(
+          error.message as MyKnownError['message']
+        );
+      }
+    }
+  }
 );
-

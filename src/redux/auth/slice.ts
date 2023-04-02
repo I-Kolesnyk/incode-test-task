@@ -1,7 +1,4 @@
-import {
-  createSlice,
-  isAnyOf, 
-} from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
   userSignUp,
   userSignIn,
@@ -26,35 +23,33 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(
-        userSignUp.fulfilled,
-        (state, action) => {
-          state.userData = action.payload as IAuthState['userData'];
-        }
-      ).addCase(userSignUp.rejected, (state, action) => {        
+      .addCase(userSignUp.fulfilled, (state, action) => {
+        state.userData = action.payload as IAuthState['userData'];
+      })
+      .addCase(userSignUp.rejected, (state, action) => {
         state.error = action.payload as IAuthState['error'];
       })
-      .addCase(
-        userSignIn.fulfilled,
-        (state, action) => {
-          state.userData = action.payload as IAuthState['userData'];
-          state.isLoggedIn = true;
-        }
-      )
-      .addCase(userSignIn.rejected, (state, action) => {        
+      .addCase(userSignIn.fulfilled, (state, action) => {
+        state.userData = action.payload as IAuthState['userData'];
+        state.isLoggedIn = true;
+        localStorage.setItem('user', JSON.stringify(action.payload));
+      })
+      .addCase(userSignIn.rejected, (state, action) => {
         state.error = action.payload as IAuthState['error'];
       })
       .addCase(userSignOut.fulfilled, state => {
         state.userData = null;
         state.isLoggedIn = false;
+        localStorage.removeItem('user');
       })
-      .addCase(userSignOut.rejected, (state, action) => {        
+      .addCase(userSignOut.rejected, (state, action) => {
         state.error = action.payload as IAuthState['error'];
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.userData = action.payload as IAuthState['userData'];
+        localStorage.setItem('user', JSON.stringify(action.payload));
       })
-      .addCase(refreshToken.rejected, (state, action) => {        
+      .addCase(refreshToken.rejected, (state, action) => {
         state.error = action.payload as IAuthState['error'];
         state.isLoggedIn = false;
       })
