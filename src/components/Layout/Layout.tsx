@@ -1,25 +1,38 @@
 import React, { FC, Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { Layout, Typography, Space } from 'antd';
+const { Header, Content } = Layout;
+const { Title, Paragraph } = Typography;
 
-const Layout: FC = () => {
+
+
+const addClass = () => {
+  const {pathname} = useLocation();
+console.log(location);
+  if (pathname === '/home') {   
+    return 'wide';
+  }
+};
+
+const LayoutComponent: FC = () => {
   return (
-    <>
-      <header>
-        <div>
-          <a href="#">InCode</a>
-          <p>Finance</p>
-        </div>
-      </header>
-      <main>
-        <div>
+    <Layout className={addClass()}>
+      <Header>
+        <Space.Compact direction="vertical">
+          <Title level={2}>InCode</Title>
+          <Paragraph>
+            <p>Finance</p>
+          </Paragraph>
+        </Space.Compact>
+      </Header>
+
+      <Content>
         <Suspense fallback={<div>Loading</div>}>
           <Outlet />
-          </Suspense>
-        </div>
-      </main>
-      ;
-    </>
+        </Suspense>
+      </Content>
+    </Layout>
   );
 };
 
-export default Layout;
+export default LayoutComponent;

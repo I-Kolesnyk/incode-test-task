@@ -1,43 +1,49 @@
-import React, {FC, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { FC, useEffect } from 'react';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { userSignIn } from 'redux/auth/operations';
 import { AppDispatch, useAppSelector } from 'redux/store';
 import { selectError } from 'redux/auth/selectors';
+import { Button, Form, Input, Space } from 'antd';
 
-type FormData = {
+const SignInSchema = yup.object().shape({
+  username: yup.string().required('Please enter your username!'),
+  password: yup.string().required('Please enter your password!'),
+});
+
+interface IFormInput {
   username: string;
   password: string;
-};
+}
 
-const LoginForm : FC = () => {
+const LoginForm: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const error = useAppSelector(selectError);
 
   useEffect(() => {
     if (error === 'Request failed with status code 404') {
-      
-        alert(
-          'User is not found. Please sign up!'
-       
-      );
+      alert('User is not found. Please sign up!');
     }
-  })
+  });
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
     formState,
-  } = useForm<FormData>({
+  } = useForm({
     defaultValues: {
       username: '',
       password: '',
     },
+    mode: 'onTouched',
+    resolver: yupResolver(SignInSchema),
   });
 
-  const loginUser = (user: FormData) => {
+  const loginUser: SubmitHandler<IFormInput> = user => {
     console.log(user);
     dispatch(userSignIn(user));
   };
@@ -49,27 +55,35 @@ const LoginForm : FC = () => {
   }, [formState.isSubmitSuccessful, reset]);
 
   return (
-    <form onSubmit={handleSubmit(loginUser)}>
-      <label>
-        <input
-          type="text"
-          placeholder="Example123"
-          autoComplete="off"
-          {...register('username')}
-        />
-        {errors.username && <div>{errors.username?.message}</div>}
-      </label>
-      <label>
-        <input
-          type="password"
-          placeholder="***************"
-          autoComplete="off"
-          {...register('password')}
-        />
-        {errors.password && <div>{errors.password?.message}</div>}
-      </label>
-      <button type="submit">Sign In</button>
-    </form>
+    <Form onFinish={handleSubmit(loginUser)} layout="vertical">
+      <Controller
+        name="username"
+        control={control}
+        render={({ field }) => (
+          <Form.Item name="username" label={<label>User name</label>}>
+            <Input {...field}/>
+          </Form.Item>
+        )}
+      />
+      <Space>
+        <p>{errors.username?.message}</p>
+      </Space>
+      <Controller
+        name="password"
+        control={control}
+        render={({ field }) => (
+          <Form.Item name="password" label={<label>Password</label>}>
+            <Input.Password {...field}/>
+          </Form.Item>
+        )}
+      />
+      <Space>
+        <p>{errors.password?.message}</p>
+      </Space>
+      <Button type="primary" htmlType="submit">
+        Sign In
+      </Button>
+    </Form>
   );
 };
 
