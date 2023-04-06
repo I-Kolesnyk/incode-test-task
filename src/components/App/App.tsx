@@ -5,8 +5,8 @@ import PublicRoute from 'routes/PublicRoute';
 import PrivateRoute from 'routes/PrivateRoute';
 // import "./App.scss";
 
-const AuthPage = lazy(() => import('pages/AuthPage'));
-const HomePage = lazy(() => import('pages/HomePage'));
+const AuthPage = lazy(() => import('pages/AuthPage/AuthPage'));
+const HomePage = lazy(() => import('pages/HomePage/HomePage'));
 
 // const PageNotFound = lazy(() => import('pages/NotFound'));
 
@@ -14,22 +14,23 @@ const App: FC = (): JSX.Element => {
   return (
     <Routes>
       <Route path={'/'} element={< LayoutComponent />}>
-        <Route
+      <Route
           index
           element={
-            <PublicRoute redirectTo="/home" restricted>
-              <AuthPage />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path={'home'}
-          element={
-            <PrivateRoute redirectTo="/" restricted>
+            <PrivateRoute redirectTo="/auth" restricted>
               <HomePage />
             </PrivateRoute>
           }
         />
+        <Route
+         path={'auth'}
+          index
+          element={
+            <PublicRoute redirectTo="/" restricted>
+              <AuthPage />
+            </PublicRoute>
+          }
+        />       
       </Route>
     </Routes>
   );

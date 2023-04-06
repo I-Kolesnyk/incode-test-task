@@ -1,30 +1,26 @@
 import React, { FC } from 'react';
+import { useAppDispatch } from 'redux/store';
+import { setIsNewUser } from 'redux/auth/slice';
 import LoginForm from 'components/LoginForm';
 import { Typography, Button, Space } from 'antd';
 const { Title, Paragraph } = Typography;
 
-type LoginViewProps = {
-  setIsNewUser: (active: boolean) => void;
-};
+const LoginView :FC = () => {
+  const dispatch = useAppDispatch();
 
-const LoginView: FC<LoginViewProps> = ({ setIsNewUser }) => {
   const handleRegistration = () => {
-    setIsNewUser(true);
+    dispatch(setIsNewUser(true))
   };
 
   return (
     <>
-      <Title level={1}>
-        Sign in
-      </Title>
+      <Title level={1}>Sign in</Title>
       <LoginForm />
       <Space align={'center'} direction={'horizontal'}>
-        <Paragraph><p>Don’t have account yet?</p></Paragraph>
-        <Button
-          type="link"
-          block
-          onClick={handleRegistration}          
-        >
+        <Paragraph>
+          <p>Don’t have account yet?</p>
+        </Paragraph>
+        <Button type="link" block onClick={handleRegistration}>
           New Account
         </Button>
       </Space>

@@ -14,13 +14,18 @@ const initialState: IAuthState = {
     refreshToken: null,
   },
   isLoggedIn: false,
+  isNewUser: false,
   error: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setIsNewUser(state, action) {
+      state.isNewUser = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(userSignUp.fulfilled, (state, action) => {
@@ -77,3 +82,4 @@ const handleFulfilled = (state: RootState) => {
 };
 
 export const authReducer = authSlice.reducer;
+export const {setIsNewUser} = authSlice.actions;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {Axios} from 'axios';
 import { store } from 'redux/store';
 import jwt_decode from 'jwt-decode';
 import { refreshToken } from 'redux/auth/operations';
@@ -8,14 +8,14 @@ export const axiosPublic = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-});
+}) as Axios;
 
 export const axiosPrivate = axios.create({
   baseURL: 'https://expa.fly.dev',
   headers: {
     'Content-Type': 'application/json',
   },
-});
+}) as Axios;
 
 axiosPrivate.interceptors.request.use(
   async config => {

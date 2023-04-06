@@ -1,0 +1,29 @@
+h1.ant-typography { 
+  margin: 0 0 48px 0;
+  font-family: var(--font-family);
+  @include font(700, 56px, 1.5); 
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+.ant-layout-content .ant-space {
+  @include flex();
+  div.ant-typography {
+    margin: 0;
+    p {
+      margin: 0;
+      font-family: var(--font-family);
+      @include font(400, 12px, 1.55);     
+      color: var(--secondary-text-color);
+    }
+  }
+  .ant-btn{
+    @include flex();
+    padding: 0;
+    height: 0;
+    font-family: var(--font-family);
+    @include font(400, 12px, 1.5);   
+    color: var(--link-color);
+    border: none;
+  }
+}

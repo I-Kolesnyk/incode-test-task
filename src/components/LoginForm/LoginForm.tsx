@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { userSignIn } from 'redux/auth/operations';
 import { AppDispatch, useAppSelector } from 'redux/store';
 import { selectError } from 'redux/auth/selectors';
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Form, Input } from 'antd';
 
 const SignInSchema = yup.object().shape({
   username: yup.string().required('Please enter your username!'),
@@ -61,25 +61,21 @@ const LoginForm: FC = () => {
         control={control}
         render={({ field }) => (
           <Form.Item name="username" label={<label>User name</label>}>
-            <Input {...field}/>
+            <Input {...field} placeholder={'Example123'} />
           </Form.Item>
         )}
       />
-      <Space>
-        <p>{errors.username?.message}</p>
-      </Space>
+      <p>{errors.username?.message}</p>
       <Controller
         name="password"
         control={control}
         render={({ field }) => (
           <Form.Item name="password" label={<label>Password</label>}>
-            <Input.Password {...field}/>
+            <Input.Password {...field} placeholder={'***************'} />
           </Form.Item>
         )}
       />
-      <Space>
-        <p>{errors.password?.message}</p>
-      </Space>
+      <p>{errors.password?.message}</p>
       <Button type="primary" htmlType="submit">
         Sign In
       </Button>

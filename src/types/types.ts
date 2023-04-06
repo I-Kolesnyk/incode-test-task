@@ -11,5 +11,6 @@ export interface IAuthState {
     refreshToken:string | null;
   } | null;
   isLoggedIn: boolean;
+  isNewUser: boolean;
   error: string | null;  
 }

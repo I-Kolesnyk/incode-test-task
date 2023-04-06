@@ -1,22 +1,38 @@
 import React, { FC, useCallback } from 'react';
+import { Typography, Button } from 'antd';
+import Icon from '@ant-design/icons';
+import { DecorIcon } from 'components/icons';
 import { useAppDispatch } from 'redux/store';
-import { userSignOut, refreshToken } from 'redux/auth/operations';
+import { userSignOut } from 'redux/auth/operations';
+import homePageImage from 'images/homePageImage.png';
 
-const HomePage: FC = () => {  
+const { Title, Paragraph } = Typography;
+
+const HomePage: FC = () => {
   const dispatch = useAppDispatch();
 
   const handleSignOut = useCallback(() => dispatch(userSignOut()), [dispatch]);
-  const handleTokenRefresh = useCallback(() => dispatch(refreshToken()), [dispatch]);
 
   return (
     <>
-      <h1>Congratulations</h1>
-      <p>
-        Now you are on the main page. Soon we will provide you with detailed
-        feedback on the result of your work
-      </p>
-      <button onClick = {handleSignOut}>Log Out</button>
-      <button onClick = {handleTokenRefresh}>token</button>
+      <Title level={1}>
+        Congratulations <Icon component={DecorIcon} height={188} width={237} />
+      </Title>
+
+      <Paragraph>
+        <p>
+          Now you are on the main page. Soon we will provide you with detailed
+          feedback on the result of your work
+        </p>
+      </Paragraph>
+      <Button onClick={handleSignOut}>Log Out</Button>
+      <img
+        src={homePageImage}
+        alt="meeting"
+        width="341"
+        height="288"
+        className="home_image"
+      />
     </>
   );
 };
