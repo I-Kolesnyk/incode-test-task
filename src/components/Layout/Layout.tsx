@@ -1,16 +1,10 @@
 import React, { FC, Suspense } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet} from 'react-router-dom';
 import { ToastWrapper } from 'components/ToastContainer/ToastContainer';
+import { addClass } from 'utils';
 import { Layout, Typography, Space } from 'antd';
 const { Header, Content } = Layout;
 const { Title, Paragraph } = Typography;
-
-const addClass = () => {
-  const {pathname} = useLocation();
-  if (pathname !== '/auth') {   
-    return 'wide';
-  }
-};
 
 const LayoutComponent: FC = () => {
   return (

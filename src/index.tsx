@@ -2,7 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from 'redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from 'redux/store';
 
 import './index.scss';
 import App from 'components/App';
@@ -14,9 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter basename="/incode-test-task">
         <App />
       </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

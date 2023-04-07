@@ -1,10 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { userSignUp } from 'redux/auth/operations';
 import { setIsNewUser } from 'redux/auth/slice';
 import { AppDispatch } from 'redux/store';
+import { SignUpSchema } from 'schemas';
 import { Button, Form, Input } from 'antd';
 
 type FormData = {
@@ -30,6 +32,8 @@ const RegisterForm: FC = () => {
       password: '',
       confirmPassword: '',
     },
+    mode: 'onTouched',
+    resolver: yupResolver(SignUpSchema),
   });
 
   const registerUser = (user: FormData) => {
@@ -57,31 +61,31 @@ const RegisterForm: FC = () => {
   return (
     <Form onFinish={handleSubmit(registerUser)} layout="vertical">
       <Controller
-        name="username"
-        control={control}
-        render={({ field }) => (
-          <Form.Item name="username" label={<label>Full name</label>}>
-            <Input {...field} />
-          </Form.Item>
-        )}
-      />
-      <p>{errors.username?.message}</p>
-      <Controller
         name="displayName"
         control={control}
         render={({ field }) => (
-          <Form.Item name="displayName" label={<label>User name</label>}>
-            <Input {...field} />
+          <Form.Item name="displayName" label={<label>Full name</label>}>
+            <Input {...field} placeholder={'Example Name'}/>
           </Form.Item>
         )}
       />
       <p>{errors.displayName?.message}</p>
       <Controller
+        name="username"
+        control={control}
+        render={({ field }) => (
+          <Form.Item name="username" label={<label>User name</label>}>
+            <Input {...field} placeholder={'Example123'} />
+          </Form.Item>
+        )}
+      />
+      <p>{errors.username?.message}</p>
+      <Controller
         name="password"
         control={control}
         render={({ field }) => (
           <Form.Item name="password" label={<label>Password</label>}>
-            <Input.Password {...field} />
+            <Input.Password {...field} placeholder={'***************'}/>
           </Form.Item>
         )}
       />
@@ -93,27 +97,8 @@ const RegisterForm: FC = () => {
           <Form.Item
             name="confirmPassword"
             label={<label>Confirm password</label>}
-            dependencies={['password']}
-            rules={[
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(
-                    new Error(
-                      'The two passwords that you entered do not match!'
-                    )
-                  );
-                },
-              }),
-            ]}
           >
-            <Input.Password {...field} />
+            <Input.Password {...field} placeholder={'***************'}/>
           </Form.Item>
         )}
       />

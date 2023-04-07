@@ -1,14 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { RootState } from 'redux/store';
-import { axiosPublic, axiosPrivate } from 'utils';
+import { axiosPublic, axiosPrivate } from 'utils/axios';
 
 interface MyKnownError {
-  message?: string;
-  code?: number;
+  message?: string; 
 }
-
-axios.defaults.baseURL = 'https://expa.fly.dev';
 
 export const userSignUp = createAsyncThunk(
   'auth/register',
@@ -76,12 +72,11 @@ export const refreshToken = createAsyncThunk(
         refreshToken: state.userData?.refreshToken,
       });
 
-      const newUserData = {
+      const refreshUserData = {
         ...state.userData,
         accessToken: response.data.accessToken,
-      };
-      console.log(newUserData);
-      return newUserData;
+      };     
+      return refreshUserData;
     } catch (error) {
       if (error instanceof Error) {
         return thunkAPI.rejectWithValue(

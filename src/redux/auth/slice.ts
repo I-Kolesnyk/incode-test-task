@@ -36,23 +36,20 @@ const authSlice = createSlice({
       })
       .addCase(userSignIn.fulfilled, (state, action) => {
         state.userData = action.payload as IAuthState['userData'];
-        state.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(action.payload));
+        state.isLoggedIn = true;        
       })
       .addCase(userSignIn.rejected, (state, action) => {
         state.error = action.payload as IAuthState['error'];
       })
       .addCase(userSignOut.fulfilled, state => {
         state.userData = null;
-        state.isLoggedIn = false;
-        localStorage.removeItem('user');
+        state.isLoggedIn = false;        
       })
       .addCase(userSignOut.rejected, (state, action) => {
         state.error = action.payload as IAuthState['error'];
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
-        state.userData = action.payload as IAuthState['userData'];
-        localStorage.setItem('user', JSON.stringify(action.payload));
+        state.userData = action.payload as IAuthState['userData'];        
       })
       .addCase(refreshToken.rejected, (state, action) => {
         state.error = action.payload as IAuthState['error'];

@@ -1,17 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { userSignIn } from 'redux/auth/operations';
 import { AppDispatch, useAppSelector } from 'redux/store';
 import { selectError } from 'redux/auth/selectors';
+import { SignInSchema } from 'schemas';
 import { Button, Form, Input } from 'antd';
-
-const SignInSchema = yup.object().shape({
-  username: yup.string().required('Please enter your username!'),
-  password: yup.string().required('Please enter your password!'),
-});
 
 interface IFormInput {
   username: string;
