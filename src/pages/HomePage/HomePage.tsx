@@ -1,10 +1,9 @@
 import React, { FC, useCallback } from 'react';
 import { Typography, Button } from 'antd';
 import Icon from '@ant-design/icons';
-import { DecorIcon } from 'components/icons';
-import { useAppDispatch } from 'redux/store';
+import { DecorIcon } from 'images/DecorIcon';
+import { useAppDispatch } from 'hooks';
 import { userSignOut } from 'redux/auth/operations';
-import homePageImage from 'images/homePageImage.png';
 
 const { Title, Paragraph } = Typography;
 
@@ -26,13 +25,6 @@ const HomePage: FC = () => {
         </p>
       </Paragraph>
       <Button onClick={handleSignOut}>Log Out</Button>
-      <img
-        src={homePageImage}
-        alt="meeting"
-        width="341"
-        height="288"
-        className="home_image"
-      />
     </>
   );
 };

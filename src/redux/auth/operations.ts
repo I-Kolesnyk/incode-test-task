@@ -1,10 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from 'redux/store';
 import { axiosPublic, axiosPrivate } from 'utils/axios';
-
-interface MyKnownError {
-  message?: string; 
-}
+import { MyKnownError, RootState } from 'types';
 
 export const userSignUp = createAsyncThunk(
   'auth/register',

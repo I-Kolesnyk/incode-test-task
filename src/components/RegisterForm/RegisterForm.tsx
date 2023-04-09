@@ -1,31 +1,21 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { IUserRegistration } from 'types';
 import { userSignUp } from 'redux/auth/operations';
 import { setIsNewUser } from 'redux/auth/slice';
-import { AppDispatch } from 'redux/store';
+import { useAppDispatch } from 'hooks';
 import { SignUpSchema } from 'schemas';
 import { Button, Form, Input } from 'antd';
 
-type FormData = {
-  username: string;
-  password: string;
-  displayName: string;
-  confirmPassword: string;
-};
-
 const RegisterForm: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
-    formState,
-  } = useForm<FormData>({
+  } = useForm<IUserRegistration>({
     defaultValues: {
       username: '',
       displayName: '',
@@ -36,27 +26,20 @@ const RegisterForm: FC = () => {
     resolver: yupResolver(SignUpSchema),
   });
 
-  const registerUser = (user: FormData) => {
+  const registerUser = (user: IUserRegistration) => {
+    console.log(user);
     dispatch(
       userSignUp({
         password: user.password,
         username: user.username,
         displayName: user.displayName,
       })
-    );
-
-    toast.success('You have been successfully registered! Please sign in');
+    );   
 
     setTimeout(() => {
       dispatch(setIsNewUser(false));
     }, 5000);
   };
-
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset();
-    }
-  }, [formState.isSubmitSuccessful, reset]);
 
   return (
     <Form onFinish={handleSubmit(registerUser)} layout="vertical">
@@ -65,7 +48,7 @@ const RegisterForm: FC = () => {
         control={control}
         render={({ field }) => (
           <Form.Item name="displayName" label={<label>Full name</label>}>
-            <Input {...field} placeholder={'Example Name'}/>
+            <Input {...field} placeholder={'Example Name'} />
           </Form.Item>
         )}
       />
@@ -85,7 +68,7 @@ const RegisterForm: FC = () => {
         control={control}
         render={({ field }) => (
           <Form.Item name="password" label={<label>Password</label>}>
-            <Input.Password {...field} placeholder={'***************'}/>
+            <Input.Password {...field} placeholder={'***************'} />
           </Form.Item>
         )}
       />
@@ -98,7 +81,7 @@ const RegisterForm: FC = () => {
             name="confirmPassword"
             label={<label>Confirm password</label>}
           >
-            <Input.Password {...field} placeholder={'***************'}/>
+            <Input.Password {...field} placeholder={'***************'} />
           </Form.Item>
         )}
       />

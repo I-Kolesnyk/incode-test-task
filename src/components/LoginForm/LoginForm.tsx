@@ -1,34 +1,19 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
+import { IUserLogin } from 'types';
 import { userSignIn } from 'redux/auth/operations';
-import { AppDispatch, useAppSelector } from 'redux/store';
-import { selectError } from 'redux/auth/selectors';
+import { useAppDispatch } from 'hooks';
 import { SignInSchema } from 'schemas';
 import { Button, Form, Input } from 'antd';
 
-interface IFormInput {
-  username: string;
-  password: string;
-}
-
 const LoginForm: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const error = useAppSelector(selectError);
-
-  useEffect(() => {
-    if (error === 'Request failed with status code 404') {
-      alert('User is not found. Please sign up!');
-    }
-  });
+  const dispatch = useAppDispatch();
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
-    formState,
   } = useForm({
     defaultValues: {
       username: '',
@@ -38,22 +23,19 @@ const LoginForm: FC = () => {
     resolver: yupResolver(SignInSchema),
   });
 
-  const loginUser: SubmitHandler<IFormInput> = user => {
-    console.log(user);
-    dispatch(userSignIn(user));
-  };
-
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset();
-    }
-  }, [formState.isSubmitSuccessful, reset]);
+  const loginUser: SubmitHandler<IUserLogin> = useCallback(
+    user => {
+      dispatch(userSignIn(user));
+    },
+    [dispatch]
+  );
 
   return (
     <Form onFinish={handleSubmit(loginUser)} layout="vertical">
       <Controller
         name="username"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <Form.Item name="username" label={<label>User name</label>}>
             <Input {...field} placeholder={'Example123'} />

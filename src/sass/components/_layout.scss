@@ -1,13 +1,14 @@
-.ant-layout {  
-  min-height: 100vh;
+.ant-layout { 
+  display: flex; 
+  flex-grow:1;
+  gap: 72px;  
   width: 424px;
   margin: 0 auto;
-  padding: 48px;
+  padding: 0 48px 0 48px;
   background-color: var(--background-color);
-  .ant-layout-header {
-    margin-bottom: 72px;
-    padding: 0;
-    height: 79px;
+  .ant-layout-header {   
+    padding-top: 48px;
+    height: 120px;
     background-color: var(--background-color);
     .ant-space-compact {
       @include flex($ai: flex-start);
@@ -28,26 +29,32 @@
       color: var(--button-color);
     }
   }
-  .ant-layout-content {
-    flex-grow: 1;
-    color: var(--text-color);
-    background-color: var(--background-color);
+  .ant-layout-content {     
+    color: var(--text-color); 
   }
 }
 
 .ant-layout.wide {
-  width: auto;
-  padding: 60px;
+  display: flex;
+  gap: 109px;  
+  width: 1440px;
+  padding: 0px 60px 0 60px;
   .ant-layout-header {
     margin: 0;
-    margin-bottom: 109px;
+    padding-top: 60px;
+    height: 169px;    
   }
   .ant-layout-content {
-    @include flex();
+    @include flex($jc: flex-start);    
+    min-height: 680px;    
     flex-direction: column;
+    background-image: url(../../images/homePageImage.png);
+    background-repeat: no-repeat;     
+    background-size: 341px, 288px; 
+    background-position-x: center;
+    background-position-y: 340px;    
     h1.ant-typography {
       position: relative;
-      margin-bottom: 48px;
       font-family: var(--font-family);
       @include font(700, 48px, 1.5);
       text-transform: uppercase;
@@ -88,9 +95,6 @@
         background-color: var(--button-color);
         transform: scale(1.03);
       }
-    }
-    .home-image {
-      display: block;
-    }
+    }   
   }
 }

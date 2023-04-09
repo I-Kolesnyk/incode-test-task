@@ -1,15 +1,12 @@
 import React, {  Fragment} from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { RouteProps } from 'types';
 import { selectIsLoggedIn } from 'redux/auth/selectors';
 
-type PublicRouteProps = {
-  redirectTo: string;
-  restricted?: boolean;
-  children: JSX.Element | JSX.Element[];
-};
 
-const PublicRoute = (props: PublicRouteProps) => {
+
+const PublicRoute = (props: RouteProps) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const shouldRedirect = isLoggedIn && props.restricted;
 

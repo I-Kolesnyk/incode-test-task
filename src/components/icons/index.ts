@@ -1,1 +1,0 @@
-export { DecorIcon } from './DecorIcon';

@@ -5,9 +5,11 @@ import { addClass } from 'utils';
 import { Layout, Typography, Space } from 'antd';
 const { Header, Content } = Layout;
 const { Title, Paragraph } = Typography;
+import { ThreeDots } from  'react-loader-spinner'
 
 const LayoutComponent: FC = () => {
   return (
+    <>
     <Layout className={addClass()}>
       <Header>
         <Space.Compact direction="vertical">
@@ -17,14 +19,15 @@ const LayoutComponent: FC = () => {
           </Paragraph>
         </Space.Compact>
       </Header>
-
       <Content>
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense fallback={ <ThreeDots />}>
           <Outlet />
         </Suspense>
       </Content>
-      <ToastWrapper />
+    
     </Layout>
+      <ToastWrapper />
+      </>
   );
 };
 

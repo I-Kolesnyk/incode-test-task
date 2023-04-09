@@ -1,7 +1,9 @@
-import axios, {Axios} from 'axios';
+import axios, { Axios } from 'axios';
 import { store } from 'redux/store';
 import jwt_decode from 'jwt-decode';
-import { refreshToken } from 'redux/auth/operations';
+import { toast } from 'react-toastify';
+import { refreshToken, userSignOut } from 'redux/auth/operations';
+import { useAppDispatch } from 'hooks';
 
 export const axiosPublic = axios.create({
   baseURL: 'https://expa.fly.dev',
@@ -41,6 +43,71 @@ axiosPrivate.interceptors.request.use(
     return config;
   },
   error => {
+    return Promise.reject(error);
+  }
+);
+
+axiosPublic.interceptors.response.use(
+  async response => {
+    if ((response.data.status = 201 && response.config.url === '/auth/login')) {
+      toast.success('You successfully sign in!');
+      return response;
+    }
+    if (
+      (response.data.status = 201 && response.config.url === '/auth/register')
+    ) {
+      toast.success('You have been successfully registered! Please sign in');
+      return response;
+    }
+    return response;
+  },
+  async error => {
+    const dispatch = useAppDispatch();
+
+    if (!error.response) {
+      toast.error('Please check your internet connection and try again!');
+    }
+    if (error.response.status === 404 && error.config.url === '/auth/login') {
+      toast.error('User is not found. Please sign up!');
+    }
+    if (error.response.status === 401 && error.config.url === '/auth/login') {
+      toast.error('Invalid sign in data.');
+    }
+    if (
+      error.response.status === 400 &&
+      error.config.url === '/auth/register'
+    ) {
+      toast.error('Password must be at least 8 characters long.');
+    }
+    if (
+      error.response.status === 409 &&
+      error.config.url === '/auth/register'
+    ) {
+      toast.error('User with such username is already exist.');
+    }
+    if (error.response.status === 403 && error.config.url === '/auth/refresh') {
+      dispatch(userSignOut());
+      toast.error('Please sign in!');
+    }   
+    return Promise.reject(error);
+  }
+);
+
+axiosPrivate.interceptors.response.use(
+  response => response,
+  async error => {
+    const dispatch = useAppDispatch();
+    if (!error.response) {
+      toast.error('Please check your internet connection and try again!');
+    }
+    if (error.response.status === 401 && error.config.url === '/auth/logout') {
+      dispatch(userSignOut());
+      toast.error('Please sign in!');
+    }
+    if (error.response.status === 403 && error.config.url === '/auth/logout') {
+      dispatch(userSignOut());
+      toast.error('Please sign in!');
+    }   
     return Promise.reject(error);
   }
 );

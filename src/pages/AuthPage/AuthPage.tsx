@@ -1,12 +1,11 @@
 import React, {FC} from 'react';
-import { useAppSelector } from 'redux/store';
-import { selectIsNewUser } from 'redux/auth/selectors';
+import { useNewUser } from 'hooks';
 import LoginView from 'components/LoginView';
 import RegistrationView from 'components/RegistrationView';
 
 const AuthPage : FC = () => {
 
-  const isNewUser = useAppSelector(selectIsNewUser);
+  const isNewUser = useNewUser();
  
   return (
     <>

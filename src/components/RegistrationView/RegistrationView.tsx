@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch } from 'hooks';
 import { setIsNewUser } from 'redux/auth/slice';
 import { Typography, Button, Space } from 'antd';
 const { Title, Paragraph } = Typography;

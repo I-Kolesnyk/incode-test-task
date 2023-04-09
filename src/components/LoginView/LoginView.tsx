@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch } from 'hooks';
 import { setIsNewUser } from 'redux/auth/slice';
 import LoginForm from 'components/LoginForm';
 import { Typography, Button, Space } from 'antd';
