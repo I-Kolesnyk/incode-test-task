@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkincode_test_task=self.webpackChunkincode_test_task||[]).push([[380],{6380:function(e,n,t){t.r(n),t.d(n,{default:function(){return a}});t(2791);var r=t(1087),s=t(3440),i=t(3329),o=s.Z.Title,c=s.Z.Paragraph;var a=function(){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(o,{level:1,children:"Page not found"}),(0,i.jsx)(c,{children:(0,i.jsx)("p",{children:"The exact URL you were looking for does not exist"})}),(0,i.jsx)(r.rU,{to:"/",children:"Go to sign in"})]})}}}]);
+//# sourceMappingURL=380.8d87c7d5.chunk.js.map
