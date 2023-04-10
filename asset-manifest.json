@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/incode-test-task/static/css/main.c3fe4ee1.css",
-    "main.js": "/incode-test-task/static/js/main.a966b4c1.js",
+    "main.js": "/incode-test-task/static/js/main.09342863.js",
     "static/js/663.6cc5fbf0.chunk.js": "/incode-test-task/static/js/663.6cc5fbf0.chunk.js",
     "static/js/455.233a36a4.chunk.js": "/incode-test-task/static/js/455.233a36a4.chunk.js",
     "static/js/787.acc97f6e.chunk.js": "/incode-test-task/static/js/787.acc97f6e.chunk.js",
@@ -10,7 +10,7 @@
     "static/media/homePageImage.png": "/incode-test-task/static/media/homePageImage.bd4781d91ee7070900c4.png",
     "index.html": "/incode-test-task/index.html",
     "main.c3fe4ee1.css.map": "/incode-test-task/static/css/main.c3fe4ee1.css.map",
-    "main.a966b4c1.js.map": "/incode-test-task/static/js/main.a966b4c1.js.map",
+    "main.09342863.js.map": "/incode-test-task/static/js/main.09342863.js.map",
     "663.6cc5fbf0.chunk.js.map": "/incode-test-task/static/js/663.6cc5fbf0.chunk.js.map",
     "455.233a36a4.chunk.js.map": "/incode-test-task/static/js/455.233a36a4.chunk.js.map",
     "787.acc97f6e.chunk.js.map": "/incode-test-task/static/js/787.acc97f6e.chunk.js.map",
@@ -19,6 +19,6 @@
   },
   "entrypoints": [
     "static/css/main.c3fe4ee1.css",
-    "static/js/main.a966b4c1.js"
+    "static/js/main.09342863.js"
   ]
 }
