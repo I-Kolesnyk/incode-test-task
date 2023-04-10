@@ -2,8 +2,8 @@ import axios, { Axios } from 'axios';
 import { store } from 'redux/store';
 import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
-import { refreshToken, userSignOut } from 'redux/auth/operations';
-import { useAppDispatch } from 'hooks';
+import { refreshToken } from 'redux/auth/operations';
+
 
 export const axiosPublic = axios.create({
   baseURL: 'https://expa.fly.dev',
@@ -61,9 +61,7 @@ axiosPublic.interceptors.response.use(
     }
     return response;
   },
-  async error => {
-    const dispatch = useAppDispatch();
-
+  async error => {  
     if (!error.response) {
       toast.error('Please check your internet connection and try again!');
     }
@@ -85,29 +83,34 @@ axiosPublic.interceptors.response.use(
     ) {
       toast.error('User with such username is already exist.');
     }
-    if (error.response.status === 403 && error.config.url === '/auth/refresh') {
-      dispatch(userSignOut());
+    if (error.response.status === 403 && error.config.url === '/auth/refresh') {     
       toast.error('Please sign in!');
-    }   
+      return (window.location.href = '/auth');
+    }
+    if (error.response.status === 404) {
+      toast.error('Something has happened. Please try again later.');
+    }
     return Promise.reject(error);
   }
 );
 
 axiosPrivate.interceptors.response.use(
   response => response,
-  async error => {
-    const dispatch = useAppDispatch();
+  async error => { 
     if (!error.response) {
       toast.error('Please check your internet connection and try again!');
     }
     if (error.response.status === 401 && error.config.url === '/auth/logout') {
-      dispatch(userSignOut());
       toast.error('Please sign in!');
+      return (window.location.href = '/auth');
     }
-    if (error.response.status === 403 && error.config.url === '/auth/logout') {
-      dispatch(userSignOut());
+    if (error.response.status === 403 && error.config.url === '/auth/logout') {      
       toast.error('Please sign in!');
-    }   
+      return (window.location.href = '/auth');
+    }
+    if (error.response.status === 404) {
+      toast.error('Something has happened. Please try again later.');
+    }
     return Promise.reject(error);
   }
 );

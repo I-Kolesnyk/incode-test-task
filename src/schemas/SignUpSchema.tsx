@@ -6,8 +6,7 @@ const {
   maxFullName,
   required,
   minUsername,
-  maxUsername,
-  minPassword,
+  maxUsername, 
   maxPassword,
   matchPassword,
   confirm,
@@ -26,8 +25,7 @@ export const SignUpSchema = yup.object().shape({
     .max(20, maxUsername),
   password: yup
     .string()
-    .required(required)
-    .min(3, minPassword)
+    .required(required)    
     .max(20, maxPassword)
     .matches(passwordRegex, matchPassword),
   confirmPassword: yup

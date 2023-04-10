@@ -23,8 +23,7 @@ const LayoutComponent: FC = () => {
         <Suspense fallback={ <ThreeDots />}>
           <Outlet />
         </Suspense>
-      </Content>
-    
+      </Content>    
     </Layout>
       <ToastWrapper />
       </>

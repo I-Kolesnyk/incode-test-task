@@ -14,6 +14,7 @@ const initialState: IAuthState = {
   },
   isLoggedIn: false,
   isNewUser: false,
+ 
 };
 
 const authSlice = createSlice({
@@ -23,6 +24,7 @@ const authSlice = createSlice({
     setIsNewUser(state, action) {
       state.isNewUser = action.payload;
     },
+    
   },
   extraReducers: builder => {
     builder
@@ -39,7 +41,8 @@ const authSlice = createSlice({
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.userData = action.payload as IAuthState['userData'];
-      });
+      })
+      ;
   },
 });
 

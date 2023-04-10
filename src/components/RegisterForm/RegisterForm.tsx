@@ -26,8 +26,7 @@ const RegisterForm: FC = () => {
     resolver: yupResolver(SignUpSchema),
   });
 
-  const registerUser = (user: IUserRegistration) => {
-    console.log(user);
+  const registerUser = (user: IUserRegistration) => {   
     dispatch(
       userSignUp({
         password: user.password,
