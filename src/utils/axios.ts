@@ -87,7 +87,7 @@ axiosPublic.interceptors.response.use(
       toast.error('Please sign in!');
       return (window.location.href = '/auth');
     }
-    if (error.response.status === 404) {
+    if (error.response.status === 404 && error.config.url !== '/auth/login') {
       toast.error('Something has happened. Please try again later.');
     }
     return Promise.reject(error);
